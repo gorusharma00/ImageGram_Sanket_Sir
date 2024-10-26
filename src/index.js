@@ -6,6 +6,7 @@ import { isAuthenticated } from './middlewares/authMiddleware.js';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJSDoc from 'swagger-jsdoc';
 import {options} from './utils/swaggerOptions.js';
+import ip from 'ip';
 
 const PORT = 3000; // port number
 
@@ -26,10 +27,15 @@ app.get('/ping', (req, res) => {
     console.log(req.query);
     console.log(req.body);
     console.log(req.user);
-    return res.json({ message: 'pong' });
+    const ipaddr = ip.address();
+    return res.json({ message: 'pong' + ipaddr });
 });
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
     connectDB();
 });
+
+
+// client. -----> LB ------> server1
+//                   ------> server2                   
